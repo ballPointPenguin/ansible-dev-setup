@@ -1,0 +1,16 @@
+---
+- name: Set up Development Environment
+  hosts: all
+  become: yes
+  roles:
+    - common
+    - role: debian
+      when: ansible_facts['os_family'] == "Debian"
+    - role: fedora
+      when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution'] == "Fedora"
+    - role: arch
+      when: ansible_facts['os_family'] == "Archlinux"
+    - role: macos
+      when: ansible_facts['os_family'] == "Darwin"
+    - role: windows
+      when: ansible_facts['os_family'] == "Windows"
