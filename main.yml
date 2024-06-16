@@ -1,7 +1,17 @@
 ---
 - name: Set up Development Environment
-  hosts: all
-  become: yes
+  hosts: localhost
+  gather_facts: yes
+
+  pre_tasks:
+    - name: Gather current user facts
+      set_fact:
+        current_user: "{{ ansible_facts['env']['USER'] | default(ansible_facts['user']) }}"
+
+    - name: Debug current_user
+      debug:
+        msg: "Current user is {{ current_user }}"
+
   roles:
     - common
     - role: debian

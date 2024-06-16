@@ -1,0 +1,11 @@
+---
+- name: Create a ~/bin directory for the current user
+  file:
+    path: "/home/{{ current_user }}/bin"
+    state: directory
+    owner: "{{ current_user }}"
+    mode: "0755"
+
+- name: Set up zsh
+  include_tasks: zsh.yml
+  tags: zsh

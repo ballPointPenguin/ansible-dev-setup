@@ -1,13 +1,16 @@
 - name: Update apt cache
+  become: yes
   apt:
     update_cache: yes
     cache_valid_time: 3600 # Cache is considered valid for 1 hour
 
 - name: Upgrade all apt packages
+  become: yes
   apt:
     upgrade: dist
 
 - name: Install basic packages
+  become: yes
   apt:
     name:
       - ack
