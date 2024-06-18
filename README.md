@@ -6,7 +6,7 @@
 ./install-debian.sh
 ```
 
-## Running the (main) playbook:
+## Running the (main) playbook
 
 ```bash
 ansible-playbook main.yml -K
