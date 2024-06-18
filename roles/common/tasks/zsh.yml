@@ -1,0 +1,41 @@
+---
+- name: Install zsh
+  become: true
+  package:
+    name: zsh
+    state: present
+
+- name: Download oh-my-zsh install script
+  get_url:
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /home/{{ current_user }}/bin/oh-my-zsh.sh
+    mode: "0755"
+    owner: "{{ current_user }}"
+    group: "{{ current_user }}"
+
+- name: Run the oh-my-zsh install script
+  shell: ./oh-my-zsh.sh --unattended
+  args:
+    chdir: /home/{{ current_user }}/bin
+    creates: /home/{{ current_user }}/.oh-my-zsh
+
+- name: Change user shell to zsh
+  become: true
+  command: chsh -s /bin/zsh "{{ current_user }}"
+
+- name: copy alias.zsh to oh-my-zsh custom dir
+  copy:
+    dest: /home/{{ current_user }}/.oh-my-zsh/custom/
+    mode: "0644"
+    src: 10-alias.zsh
+
+- name: copy path.zsh to oh-my-zsh custom dir
+  copy:
+    dest: /home/{{ current_user }}/.oh-my-zsh/custom/
+    mode: "0644"
+    src: 10-path.zsh
+
+- name: Parse and merge current plugins
+  update_zsh_plugins:
+    zshrc_path: "/home/{{ current_user }}/.zshrc"
+    new_plugins: ["asdf", "docker", "emacs", "pipenv"]
