@@ -1,3 +1,4 @@
+# code: language=ansible
 ---
 - name: Set up Development Environment
   hosts: localhost

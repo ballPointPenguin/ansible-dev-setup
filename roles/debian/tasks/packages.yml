@@ -1,17 +1,19 @@
+# code: language=ansible
+---
 - name: Update apt cache
-  become: yes
-  apt:
-    update_cache: yes
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
     cache_valid_time: 3600 # Cache is considered valid for 1 hour
 
 - name: Upgrade all apt packages
-  become: yes
-  apt:
+  become: true
+  ansible.builtin.apt:
     upgrade: dist
 
 - name: Install basic packages
-  become: yes
-  apt:
+  become: true
+  ansible.builtin.apt:
     name:
       - ack
       - autoconf

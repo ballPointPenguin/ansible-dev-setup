@@ -1,0 +1,41 @@
+# code: language=ansible
+---
+- name: Download mise install script
+  ansible.builtin.get_url:
+    url: https://mise.run
+    dest: /home/{{ current_user }}/bin/mise.sh
+    owner: "{{ current_user }}"
+    group: "{{ current_user }}"
+    mode: "0644"
+
+- name: Run the mise install script
+  ansible.builtin.command: ./mise.sh
+  args:
+    chdir: /home/{{ current_user }}/bin
+    creates: /home/{{ current_user }}/.local/bin/mise
+
+- name: Check if ~/.oh-my-zsh/custom folder exists
+  ansible.builtin.stat:
+    path: /home/{{ current_user }}/.oh-my-zsh/custom
+  register: ohmyzsh
+
+- name: Ensure mise.zsh file in ~/.oh-my-zsh/custom
+  ansible.builtin.lineinfile:
+    path: /home/{{ current_user }}/.oh-my-zsh/custom/10-mise.zsh
+    line: 'eval "$(~/.local/bin/mise activate zsh)"'
+    create: true
+    owner: "{{ current_user }}"
+    group: "{{ current_user }}"
+    mode: "0644"
+  when: ohmyzsh.stat.exists
+
+- name: Otherwise ensure line exists in .zshrc
+  ansible.builtin.lineinfile:
+    path: /home/{{ current_user }}/.zshrc
+    line: 'eval "$(~/.local/bin/mise activate zsh)"'
+  when: not ohmyzsh.stat.exists
+
+- name: Include zsh plugins
+  update_zsh_plugins:
+    zshrc_path: "/home/{{ current_user }}/.zshrc"
+    new_plugins: ["mise"]

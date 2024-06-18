@@ -1,3 +1,4 @@
+# code: language=ansible
 ---
 - name: Ensure the bin directory exists
   ansible.builtin.file:
@@ -10,3 +11,11 @@
 - name: Set up zsh
   ansible.builtin.include_tasks: zsh.yml
   tags: zsh
+
+- name: Set up mise
+  ansible.builtin.include_tasks: mise.yml
+  tags: mise
+
+- name: Set up Java
+  ansible.builtin.include_tasks: java.yml
+  tags: java
