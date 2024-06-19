@@ -27,3 +27,5 @@
       become: true
       when: ansible_os_family == "Windows"
     - role: common
+    - role: exercism
+      tags: exercism
