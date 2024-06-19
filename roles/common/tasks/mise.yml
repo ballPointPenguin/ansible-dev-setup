@@ -3,20 +3,18 @@
 - name: Download mise install script
   ansible.builtin.get_url:
     url: https://mise.run
-    dest: /home/{{ current_user }}/bin/mise.sh
-    owner: "{{ current_user }}"
-    group: "{{ current_user }}"
+    dest: /home/{{ ansible_user }}/bin/mise.sh
     mode: "0644"
 
 - name: Run the mise install script
   ansible.builtin.command: ./mise.sh
   args:
-    chdir: /home/{{ current_user }}/bin
-    creates: /home/{{ current_user }}/.local/bin/mise
+    chdir: /home/{{ ansible_user }}/bin
+    creates: /home/{{ ansible_user }}/.local/bin/mise
 
 - name: Include zsh mise plugin
   update_zsh_plugins:
-    zshrc_path: "/home/{{ current_user }}/.zshrc"
+    zshrc_path: "/home/{{ ansible_user }}/.zshrc"
     new_plugins: ["mise"]
 
 - name: Update mise plugins

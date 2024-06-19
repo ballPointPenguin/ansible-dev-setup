@@ -6,16 +6,6 @@
 ./install-debian.sh
 ```
 
-## SSH Authentication
-
-ssh authentication is preferred since it will not require a password and somehow is still more secure.
-
-Create an ssh key pair, if needed, and add the public key to ~/.ssh/authorized_keys.
-
-_Remember to chmod 600 ~/.ssh/authorized_keys._
-
-Include the path to the private key in the inventory for localhost below.
-
 ## Configure Ansible Inventory at /etc/ansible/hosts
 
 example /etc/ansible/hosts file:

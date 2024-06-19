@@ -9,37 +9,35 @@
 - name: Download oh-my-zsh install script
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    dest: /home/{{ current_user }}/bin/oh-my-zsh.sh
+    dest: /home/{{ ansible_user }}/bin/oh-my-zsh.sh
     mode: "0644"
-    owner: "{{ current_user }}"
-    group: "{{ current_user }}"
 
 - name: Run the oh-my-zsh install script
   ansible.builtin.command: |
     ./oh-my-zsh.sh --unattended
   args:
-    chdir: /home/{{ current_user }}/bin
-    creates: /home/{{ current_user }}/.oh-my-zsh
+    chdir: /home/{{ ansible_user }}/bin
+    creates: /home/{{ ansible_user }}/.oh-my-zsh
 
 - name: Change user shell to zsh
   become: true
   ansible.builtin.user:
-    name: "{{ current_user }}"
+    name: "{{ ansible_user }}"
     shell: /bin/zsh
 
 - name: Copy alias.zsh to oh-my-zsh custom dir
   ansible.builtin.copy:
-    dest: /home/{{ current_user }}/.oh-my-zsh/custom/
+    dest: /home/{{ ansible_user }}/.oh-my-zsh/custom/
     mode: "0644"
     src: 10-alias.zsh
 
 - name: Copy path.zsh to oh-my-zsh custom dir
   ansible.builtin.copy:
-    dest: /home/{{ current_user }}/.oh-my-zsh/custom/
+    dest: /home/{{ ansible_user }}/.oh-my-zsh/custom/
     mode: "0644"
     src: 10-path.zsh
 
 - name: Include zsh plugins
   update_zsh_plugins:
-    zshrc_path: "/home/{{ current_user }}/.zshrc"
+    zshrc_path: "/home/{{ ansible_user }}/.zshrc"
     new_plugins: ["docker", "emacs", "pipenv"]

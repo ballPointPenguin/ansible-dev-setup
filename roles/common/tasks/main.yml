@@ -2,10 +2,8 @@
 ---
 - name: Ensure the bin directory exists
   ansible.builtin.file:
-    path: /home/{{ current_user }}/bin
+    path: /home/{{ ansible_user }}/bin
     state: directory
-    owner: "{{ current_user }}"
-    group: "{{ current_user }}"
     mode: "0755"
 
 - name: Set up zsh

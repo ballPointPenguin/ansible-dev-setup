@@ -2,26 +2,28 @@
 ---
 - name: Set up Development Environment
   hosts: localhost
-  gather_facts: true
+  gather_facts: false
 
   pre_tasks:
-    - name: Gather current user facts
-      ansible.builtin.set_fact:
-        current_user: "{{ ansible_facts['env']['USER'] | default(ansible_facts['user']) }}"
-
-    - name: Debug current_user
+    - name: Debug ansible_user
       ansible.builtin.debug:
-        msg: "Current user is {{ current_user }}"
+        msg: "Current user is {{ ansible_user }}"
+
+    - name: Debug ansible_os_family
+      ansible.builtin.debug:
+        msg: "OS Family is {{ ansible_os_family }}"
 
   roles:
     - role: debian
-      when: ansible_facts['os_family'] == "Debian"
-    - role: fedora
-      when: ansible_facts['os_family'] == "RedHat" and ansible_facts['distribution'] == "Fedora"
+      become: true
+      when: ansible_os_family == "Debian"
     - role: arch
-      when: ansible_facts['os_family'] == "Archlinux"
+      become: true
+      when: ansible_os_family == "Archlinux"
     - role: macos
-      when: ansible_facts['os_family'] == "Darwin"
+      become: true
+      when: ansible_os_family == "Darwin"
     - role: windows
-      when: ansible_facts['os_family'] == "Windows"
-    - common
+      become: true
+      when: ansible_os_family == "Windows"
+    - role: common
