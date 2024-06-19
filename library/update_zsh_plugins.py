@@ -19,6 +19,10 @@ def parse_and_update_plugins(zshrc_path, new_plugins):
 
         # Merge current plugins with new plugins
         all_plugins = sorted(set(current_plugins + new_plugins))
+
+        # If all_plugins equals current_plugins, return unchanged to ansible:
+        if all_plugins == current_plugins:
+            return []
         
         # Replace or add the plugins block
         # Format the new plugins block with each plugin on a new line and proper indentation
@@ -57,7 +61,8 @@ def main():
 
     try:
         updated_plugins = parse_and_update_plugins(zshrc_path, new_plugins)
-        module.exit_json(changed=True, plugins=updated_plugins)
+        changed = bool(updated_plugins)
+        module.exit_json(changed=changed, plugins=updated_plugins)
     except Exception as e:
         module.fail_json(msg=str(e))
 

@@ -19,3 +19,7 @@
 - name: Set up Java
   ansible.builtin.include_tasks: java.yml
   tags: java
+
+- name: Set up Clojure
+  ansible.builtin.include_tasks: clojure.yml
+  tags: clojure

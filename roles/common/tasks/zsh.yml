@@ -15,7 +15,8 @@
     group: "{{ current_user }}"
 
 - name: Run the oh-my-zsh install script
-  ansible.builtin.command: ./oh-my-zsh.sh --unattended
+  ansible.builtin.command: |
+    ./oh-my-zsh.sh --unattended
   args:
     chdir: /home/{{ current_user }}/bin
     creates: /home/{{ current_user }}/.oh-my-zsh

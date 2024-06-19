@@ -1,30 +1,8 @@
 # code: language=ansible
 ---
-- name: Check if Java 21 (temurin) is installed via mise
-  block:
-    - name: Check if mise config exists
-      ansible.builtin.stat:
-        path: "{{ current_user }}/.config/mise/config.toml"
-      register: mise_config_file
-
-    - name: Read the mise config file
-      ansible.builtin.slurp:
-        path: "{{ current_user }}/.config/mise/config.toml"
-      register: mise_toml_content
-      when: mise_config_file.stat.exists
-
-    - name: Check if Java 21 is already specified
-      ansible.builtin.set_fact:
-        java_installed: "{{ 'temurin-21' in (mise_toml_content.content | b64decode) }}"
-      when: mise_config_file.stat.exists
-
-  always:
-    - name: Install Java 21 (LTS) using mise
-      ansible.builtin.shell: |
-        source ~/.zshrc
-        mise use -g java@temurin-21
-      args:
-        executable: /bin/zsh
-      register: mise_install_java
-      when: not mise_config_file.stat.exists or not java_installed
-      changed_when: "'java@temurin-21' in mise_install_java.stdout"
+- name: Install Java 21 (LTS) using mise
+  ansible.builtin.include_role:
+    name: mise_installer
+  vars:
+    library_name: java
+    library_version: temurin-21

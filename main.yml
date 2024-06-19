@@ -14,7 +14,6 @@
         msg: "Current user is {{ current_user }}"
 
   roles:
-    - common
     - role: debian
       when: ansible_facts['os_family'] == "Debian"
     - role: fedora
@@ -25,3 +24,4 @@
       when: ansible_facts['os_family'] == "Darwin"
     - role: windows
       when: ansible_facts['os_family'] == "Windows"
+    - common

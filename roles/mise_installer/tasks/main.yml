@@ -1,0 +1,22 @@
+# code: language=ansible
+---
+- name: Check if library is installed via mise
+  block:
+    - name: Check if library is installed globally
+      ansible.builtin.command: |
+        ~/.local/bin/mise ls -g
+      register: mise_ls_output
+      changed_when: false
+
+    - name: Set fact for library installation status
+      ansible.builtin.set_fact:
+        "{{ 'library_' ~ library_name ~ '_installed' }}": |
+          mise_ls_output.stdout is search("{{ library_name }}\s+{{ library_version }}")
+
+  always:
+    - name: Install library using mise
+      ansible.builtin.command: |
+        ~/.local/bin/mise use -g {{ library_name }}@{{ library_version }}
+      register: mise_install_software
+      when: not vars['library_' ~ library_name ~ '_installed']
+      changed_when: "'{{ library_name }}@{{ library_version }}' in mise_install_software.stdout"
