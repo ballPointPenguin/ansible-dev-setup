@@ -19,8 +19,6 @@
       - libxml2-utils
     state: present
 
-#  build-essential autoconf m4 libncurses-dev libwxgtk3.2-dev libwxgtk-webview3.2-dev libgl1-mesa-dev libglu1-mesa-dev libpng-dev libssh-dev unixodbc-dev xsltproc fop libxml2-utils openjdk-17-jdk
-
 - name: Get latest erlang version
   ansible.builtin.command: |
     {{ mise_command }} latest erlang --yes
