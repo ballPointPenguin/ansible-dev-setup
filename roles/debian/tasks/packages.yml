@@ -29,6 +29,7 @@
       - git
       - htop
       - make
+      - software-properties-common
       - tree
       - vim
       - wget

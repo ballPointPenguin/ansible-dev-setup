@@ -5,3 +5,6 @@
 
 - name: Install ansible-dev-tools
   ansible.builtin.include_tasks: ansible-dev.yml
+
+- name: Install prolog
+  ansible.builtin.include_tasks: prolog.yml

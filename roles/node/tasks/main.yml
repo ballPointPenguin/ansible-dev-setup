@@ -1,11 +1,10 @@
 # code: language=ansible
 ---
-- name: Install requied packages
+- name: Install required packages
   become: true
   ansible.builtin.package:
     name:
       - g++
-      - make
       - python3
       - python3-pip
 

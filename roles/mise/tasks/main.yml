@@ -1,6 +1,6 @@
 # code: language=ansible
 ---
-- name: List installed plugins {{ mise_library_name }}
+- name: List installed plugins
   ansible.builtin.command: |
     {{ mise_command }} plugins ls --user -c
   register: mise_plugins

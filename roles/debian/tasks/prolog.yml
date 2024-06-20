@@ -1,0 +1,10 @@
+# code: language=ansible
+---
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install SWI-Prolog
+  ansible.builtin.apt:
+    name: swi-prolog
+    state: present
