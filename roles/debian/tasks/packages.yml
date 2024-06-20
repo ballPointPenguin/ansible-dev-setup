@@ -9,17 +9,26 @@
   ansible.builtin.apt:
     upgrade: dist
 
+- name: Check if a reboot is required
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+  register: reboot_required
+
+- name: Reboot the machine if required
+  ansible.builtin.reboot:
+  when: reboot_required.stat.exists
+
 - name: Install basic packages
-  ansible.builtin.apt:
+  ansible.builtin.apt: # Using apt for consistency in Debian/Ubuntu environments
     name:
       - ack
       - autoconf
       - automake
       - build-essential
       - curl
-      - emacs
       - git
       - make
+      - tree
       - vim
       - wget
     state: present

@@ -1,11 +1,5 @@
 # code: language=ansible
 ---
-- name: Ensure the bin directory exists
-  ansible.builtin.file:
-    path: /home/{{ ansible_user }}/bin
-    state: directory
-    mode: "0755"
-
 - name: Ensure the exercism directory exists
   ansible.builtin.file:
     path: /home/{{ ansible_user }}/exercism
@@ -22,5 +16,5 @@
 - name: Copy the executable to ~/bin
   ansible.builtin.copy:
     src: /home/{{ ansible_user }}/exercism/exercism
-    dest: /home/{{ ansible_user}}/bin/exercism
+    dest: /home/{{ ansible_user }}/bin/exercism
     mode: "0755"

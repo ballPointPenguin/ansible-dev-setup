@@ -1,0 +1,5 @@
+# code: language=ansible
+---
+dependencies:
+  - role: common
+  - role: java

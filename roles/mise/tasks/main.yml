@@ -1,0 +1,37 @@
+# code: language=ansible
+---
+- name: Check the current plugins
+  ansible.builtin.command: |
+    {{ mise_command }} plugins ls --user -c
+  register: mise_plugins_ls
+  changed_when: false
+
+- name: Ensure the plugin is installed
+  ansible.builtin.command: |
+    {{ mise_command }} plugins install {{ library_name }} --yes
+  register: mise_plugins_install
+  when: "'java' not in mise_plugins_ls.stdout.split('\n')"
+  changed_when: mise_plugins_install.rc == 0
+
+- name: List installed libraries
+  ansible.builtin.command: |
+    {{ mise_command }} ls -gi
+  register: mise_libs
+  changed_when: false
+
+- name: Check if library is installed
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      {{ mise_command }} ls -gi | grep -Eq "{{ library_name }}\\s+{{ library_version }}"
+    executable: /bin/bash
+  register: mise_library_installed
+  failed_when: false
+  changed_when: false
+
+- name: Ensure the library is installed
+  ansible.builtin.command: |
+    {{ mise_command }} use -g {{ library_name }}@{{ library_version }}
+  register: mise_install_library
+  when: mise_library_installed.rc != 0
+  changed_when: mise_install_library.stdout is search("installed")

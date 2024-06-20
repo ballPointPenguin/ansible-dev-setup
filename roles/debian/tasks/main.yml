@@ -1,4 +1,7 @@
 # code: language=ansible
 ---
-- name: Include package installation tasks
+- name: Include basic packages
   ansible.builtin.include_tasks: packages.yml
+
+- name: Install ansible-dev-tools
+  ansible.builtin.include_tasks: ansible-dev.yml

@@ -2,7 +2,7 @@
 ---
 - name: Install Java 21 (LTS) using mise
   ansible.builtin.include_role:
-    name: mise_installer
+    name: mise
   vars:
     library_name: java
     library_version: temurin-21

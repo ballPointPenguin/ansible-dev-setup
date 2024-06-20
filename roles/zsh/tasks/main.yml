@@ -29,15 +29,10 @@
   ansible.builtin.copy:
     dest: /home/{{ ansible_user }}/.oh-my-zsh/custom/
     mode: "0644"
-    src: 10-alias.zsh
+    src: alias.zsh
 
 - name: Copy path.zsh to oh-my-zsh custom dir
   ansible.builtin.copy:
     dest: /home/{{ ansible_user }}/.oh-my-zsh/custom/
     mode: "0644"
-    src: 10-path.zsh
-
-- name: Include zsh plugins
-  update_zsh_plugins:
-    zshrc_path: "/home/{{ ansible_user }}/.zshrc"
-    new_plugins: ["docker", "emacs", "pipenv"]
+    src: path.zsh

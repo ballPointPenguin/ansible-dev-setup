@@ -6,18 +6,5 @@
     state: directory
     mode: "0755"
 
-- name: Set up zsh
-  ansible.builtin.include_tasks: zsh.yml
-  tags: zsh
-
 - name: Set up mise
   ansible.builtin.include_tasks: mise.yml
-  tags: mise
-
-- name: Set up Java
-  ansible.builtin.include_tasks: java.yml
-  tags: java
-
-- name: Set up Clojure
-  ansible.builtin.include_tasks: clojure.yml
-  tags: clojure

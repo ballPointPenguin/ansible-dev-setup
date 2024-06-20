@@ -1,0 +1,21 @@
+# code: language=ansible
+---
+- name: Ensure required packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - curl
+      - rlwrap
+    state: present
+
+- name: Check for a java runtime
+  ansible.builtin.command: java -version
+  changed_when: false
+  failed_when: false
+
+- name: Install Clojure using mise
+  ansible.builtin.import_role:
+    name: mise
+  vars:
+    library_name: clojure
+    library_version: 1.11
