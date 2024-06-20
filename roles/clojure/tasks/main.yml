@@ -17,5 +17,5 @@
   ansible.builtin.import_role:
     name: mise
   vars:
-    library_name: clojure
-    library_version: 1.11
+    mise_library_name: clojure
+    mise_library_version: 1.11

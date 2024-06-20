@@ -27,6 +27,7 @@
       - build-essential
       - curl
       - git
+      - htop
       - make
       - tree
       - vim

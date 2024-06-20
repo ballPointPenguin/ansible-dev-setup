@@ -1,0 +1,17 @@
+# code: language=ansible
+---
+- name: Install requied packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - g++
+      - make
+      - python3
+      - python3-pip
+
+- name: Install Node 22 (LTS) using mise
+  ansible.builtin.include_role:
+    name: mise
+  vars:
+    mise_library_name: node
+    mise_library_version: 22

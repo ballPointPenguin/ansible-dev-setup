@@ -1,0 +1,48 @@
+# code: language=ansible
+---
+- name: Ensure required packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - jq
+      - libzstd-dev
+    state: present
+
+- name: Get latest sbcl version
+  ansible.builtin.command: |
+    {{ mise_command }} latest sbcl --yes
+  register: latest_sbcl
+  changed_when: false
+
+- name: Install Common Lisp using mise
+  ansible.builtin.import_role:
+    name: mise
+  vars:
+    mise_library_name: "sbcl"
+    mise_library_version: "{{ latest_sbcl.stdout }}"
+
+- name: Get the latest racket version
+  ansible.builtin.command: |
+    {{ mise_command }} latest racket --yes
+  register: latest_racket
+  changed_when: false
+
+- name: Install Racket using mise
+  ansible.builtin.import_role:
+    name: mise
+  vars:
+    mise_library_name: "racket"
+    mise_library_version: "{{ latest_racket.stdout }}"
+
+- name: Get latest chicken version
+  ansible.builtin.command: |
+    {{ mise_command }} latest chicken --yes
+  register: latest_chicken
+  changed_when: false
+
+- name: Install Chicken Scheme using mise
+  ansible.builtin.import_role:
+    name: mise
+  vars:
+    mise_library_name: "chicken"
+    mise_library_version: "{{ latest_chicken.stdout }}"

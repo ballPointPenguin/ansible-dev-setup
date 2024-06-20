@@ -4,5 +4,5 @@
   ansible.builtin.include_role:
     name: mise
   vars:
-    library_name: java
-    library_version: temurin-21
+    mise_library_name: java
+    mise_library_version: temurin-21

@@ -38,6 +38,12 @@
       tags: exercism
     - role: java
       tags: java
+    - role: lisp
+      tags: lisp
+    - role: neovim
+      tags: neovim
+    - role: node
+      tags: node
     - role: zsh
       tags: zsh
 

@@ -1,0 +1,38 @@
+# code: language=ansible
+---
+- name: Install packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - curl
+      - neovim
+    state: present
+
+- name: Ensure ~/.config/nvim/
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.config/nvim"
+    state: directory
+    mode: "0755"
+
+- name: Ensure ~/.local/share/nvim/site/autoload/
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.local/share/nvim/site/autoload"
+    state: directory
+    mode: "0755"
+
+- name: Copy init.vim
+  ansible.builtin.copy:
+    src: init.vim
+    dest: "/home/{{ ansible_user }}/.config/nvim/init.vim"
+    mode: "0644"
+
+- name: Install vim-plug
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: "/home/{{ ansible_user }}/.local/share/nvim/site/autoload/plug.vim"
+    mode: "0644"
+
+- name: Install neovim plugins
+  ansible.builtin.command: nvim --headless +PlugInstall +qall
+  args:
+    creates: "/home/{{ ansible_user }}/.local/share/nvim/plugged"
