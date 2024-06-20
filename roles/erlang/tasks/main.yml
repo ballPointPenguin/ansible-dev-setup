@@ -1,0 +1,61 @@
+# code: language=ansible
+---
+- name: Ensure required packages
+  become: true
+  ansible.builtin.package:
+    name:
+      - autoconf
+      - m4
+      - libncurses-dev
+      - libwxgtk3.2-dev
+      - libwxgtk-webview3.2-dev
+      - libgl1-mesa-dev
+      - libglu1-mesa-dev
+      - libpng-dev
+      - libssh-dev
+      - unixodbc-dev
+      - xsltproc
+      - fop
+      - libxml2-utils
+    state: present
+
+#  build-essential autoconf m4 libncurses-dev libwxgtk3.2-dev libwxgtk-webview3.2-dev libgl1-mesa-dev libglu1-mesa-dev libpng-dev libssh-dev unixodbc-dev xsltproc fop libxml2-utils openjdk-17-jdk
+
+- name: Get latest erlang version
+  ansible.builtin.command: |
+    {{ mise_command }} latest erlang --yes
+  register: latest_erlang
+  changed_when: false
+
+- name: Install erlang using mise
+  ansible.builtin.import_role:
+    name: mise
+  vars:
+    mise_library_name: "erlang"
+    mise_library_version: "{{ latest_erlang.stdout }}"
+
+- name: Get latest rebar version
+  ansible.builtin.command: |
+    {{ mise_command }} latest rebar --yes
+  register: latest_rebar
+  changed_when: false
+
+- name: Install rebar using mise
+  ansible.builtin.import_role:
+    name: mise
+  vars:
+    mise_library_name: "rebar"
+    mise_library_version: "{{ latest_rebar.stdout }}"
+
+- name: Get latest elixir version
+  ansible.builtin.command: |
+    {{ mise_command }} latest elixir --yes
+  register: latest_elixir
+  changed_when: false
+
+- name: Install elixir using mise
+  ansible.builtin.import_role:
+    name: mise
+  vars:
+    mise_library_name: "elixir"
+    mise_library_version: "{{ latest_elixir.stdout }}"

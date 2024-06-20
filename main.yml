@@ -34,6 +34,8 @@
 
     - role: clojure
       tags: clojure
+    - role: erlang
+      tags: erlang
     - role: exercism
       tags: exercism
     - role: java

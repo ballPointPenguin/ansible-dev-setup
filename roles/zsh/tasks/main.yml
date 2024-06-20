@@ -36,3 +36,9 @@
     dest: /home/{{ ansible_user }}/.oh-my-zsh/custom/
     mode: "0644"
     src: path.zsh
+
+- name: Copy mise.zsh to oh-my-zsh custom dir
+  ansible.builtin.copy:
+    dest: /home/{{ ansible_user }}/.oh-my-zsh/custom/
+    mode: "0644"
+    src: mise.zsh
